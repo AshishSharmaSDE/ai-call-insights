@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.routers import transcribe, sentiment, process_call, realtime
+from app.routers import realtime
 
 app = FastAPI(title="AI Call Insights")
 
@@ -18,9 +18,6 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(transcribe.router, prefix="/transcribe", tags=["Transcription"])
-app.include_router(sentiment.router, prefix="/sentiment", tags=["Sentiment"])
-app.include_router(process_call.router, prefix="/process", tags=["Call Processing"])
 app.include_router(realtime.router, tags=["Realtime"])  # this defines /ws/transcribe
 
 @app.get("/")
