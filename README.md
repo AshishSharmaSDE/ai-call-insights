@@ -180,3 +180,5 @@ frontend/realtime_test.html
 Then click **Start Streaming** to begin transcription.
 
 ---
+
+![img.png](img.png)

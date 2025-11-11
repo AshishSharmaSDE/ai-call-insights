@@ -1,0 +1,82 @@
+[
+  {
+    "text": {
+      "segment": "Liam: Hi Sarah, thanks so much for taking the time to chat with me today. I\u2019m Liam, and I\u2019m really excited to tell you about the StellarStream Pro \u2013 it\u2019s a game changer for anyone looking to elevate their video editing workflow.",
+      "start": 0.0,
+      "end": 5.2,
+      "text": "Liam: Hi Sarah, thanks so much for taking the time to chat with me today. I\u2019m Liam, and I\u2019m really excited to tell you about the StellarStream Pro \u2013 it\u2019s a game changer for anyone looking to elevate their video editing workflow.",
+      "confidence": 0.98
+    },
+    "sentiment": "Sentiment: Positive"
+  },
+  {
+    "text": {
+      "segment": "Sarah: Well, honestly, I'm using a really basic free editor, and it's *so* clunky. I\u2019m spending way too much time just trying to find the tools I need, and exporting takes forever!",
+      "start": 5.2,
+      "end": 10.8,
+      "text": "Sarah: Well, honestly, I'm using a really basic free editor, and it's *so* clunky. I\u2019m spending way too much time just trying to find the tools I need, and exporting takes forever!",
+      "confidence": 0.95
+    },
+    "sentiment": "Sentiment: Negative"
+  },
+  {
+    "text": {
+      "segment": "Liam: I completely understand! That's exactly what the StellarStream Pro was designed to solve. It's built with speed and simplicity in mind. First off, the interface is incredibly intuitive \u2013 drag and drop, right where you need it. But it's not just about ease of use. It has industry-leading rendering speeds \u2013 we\u2019re talking up to 5x faster than most competitors. Plus, we\u2019ve packed it with advanced features like multi-track editing, color grading tools, and seamless integration with cloud storage.",
+      "start": 10.8,
+      "end": 45.6,
+      "text": "Liam: I completely understand! That's exactly what the StellarStream Pro was designed to solve. It's built with speed and simplicity in mind. First off, the interface is incredibly intuitive \u2013 drag and drop, right where you need it. But it's not just about ease of use. It has industry-leading rendering speeds \u2013 we\u2019re talking up to 5x faster than most competitors. Plus, we\u2019ve packed it with advanced features like multi-track editing, color grading tools, and seamless integration with cloud storage.",
+      "confidence": 0.97
+    },
+    "sentiment": "Positive"
+  },
+  {
+    "text": {
+      "segment": "Sarah: Wow, 4K is impressive. And the faster rendering\u2026 that would *really* save me time.",
+      "start": 45.6,
+      "end": 52.8,
+      "text": "Sarah: Wow, 4K is impressive. And the faster rendering\u2026 that would *really* save me time.",
+      "confidence": 0.93
+    },
+    "sentiment": "Positive"
+  },
+  {
+    "text": {
+      "segment": "Liam: That\u2019s a great point, Sarah. I know some people worry about the price, but when you consider the time you\u2019ll save \u2013 the hours you\u2019ll reclaim \u2013 and the professional quality you\u2019ll be able to achieve, the StellarStream Pro is a fantastic investment. We also offer flexible payment plans. Plus, we have a 30-day money-back guarantee. If you\u2019re not completely satisfied, you can return it for a full refund, no questions asked.",
+      "start": 52.8,
+      "end": 87.6,
+      "text": "Liam: That\u2019s a great point, Sarah. I know some people worry about the price, but when you consider the time you\u2019ll save \u2013 the hours you\u2019ll reclaim \u2013 and the professional quality you\u2019ll be able to achieve, the StellarStream Pro is a fantastic investment. We also offer flexible payment plans. Plus, we have a 30-day money-back guarantee. If you\u2019re not completely satisfied, you can return it for a full refund, no questions asked.",
+      "confidence": 0.96
+    },
+    "sentiment": "Positive"
+  },
+  {
+    "text": {
+      "segment": "Sarah: Okay, that money-back guarantee does make me feel a little more comfortable.",
+      "start": 87.6,
+      "end": 94.8,
+      "text": "Sarah: Okay, that money-back guarantee does make me feel a little more comfortable.",
+      "confidence": 0.92
+    },
+    "sentiment": "Sentiment: Positive"
+  },
+  {
+    "text": {
+      "segment": "Liam: Fantastic! I\u2019m confident you\u2019ll absolutely love the StellarStream Pro. We\u2019re currently running a promotion \u2013 if you sign up today, you\u2019ll receive a free premium plugin pack worth $200! Would you like me to walk you through the different subscription options?",
+      "start": 94.8,
+      "end": 120.0,
+      "text": "Liam: Fantastic! I\u2019m confident you\u2019ll absolutely love the StellarStream Pro. We\u2019re currently running a promotion \u2013 if you sign up today, you\u2019ll receive a free premium plugin pack worth $200! Would you like me to walk you through the different subscription options?",
+      "confidence": 0.98
+    },
+    "sentiment": "Sentiment: Positive"
+  },
+  {
+    "text": {
+      "segment": "Sarah: Yes, please. Tell me about the monthly and annual plans.",
+      "start": 120.0,
+      "end": 127.2,
+      "text": "Sarah: Yes, please. Tell me about the monthly and annual plans.",
+      "confidence": 0.99
+    },
+    "sentiment": "Positive"
+  }
+]
