@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Call Insights - Live Transcription POC</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background: #f7f9fc;
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #1e1e2f;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    button {
+      background: #0066ff;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-right: 10px;
+      transition: 0.2s;
+    }
+
+    button:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    button:hover:not(:disabled) {
+      background: #0051cc;
+    }
+
+    #transcriptContainer {
+      margin-top: 25px;
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 15px 20px;
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+    }
+
+    .line {
+      margin-bottom: 8px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      line-height: 1.5;
+      background: #fff;
+      border: 1px solid #f0f0f0;
+    }
+
+    .positive {
+      border-left: 4px solid #0f9d58;
+    }
+
+    .negative {
+      border-left: 4px solid #db4437;
+    }
+
+    .neutral {
+      border-left: 4px solid #999;
+    }
+
+    #status {
+      margin-top: 15px;
+      color: #555;
+      font-size: 14px;
+    }
+
+    #log {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #777;
+      height: 80px;
+      overflow-y: auto;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>🎧 AI Call Insights - Live Transcription</h1>
+    <p>This demo streams your voice in real time, transcribes it using Whisper, and analyzes sentiment using Llama.</p>
+
+    <div>
+      <button id="startBtn">Start Streaming</button>
+      <button id="stopBtn" disabled>Stop Streaming</button>
+    </div>
+
+    <div id="status">⏸️ Not connected</div>
+
+    <div id="transcriptContainer"></div>
+
+    <div id="log"></div>
+  </div>
+
+  <script>
+    let ws;
+    let mediaRecorder;
+    let isRecording = false;
+
+    const transcriptDiv = document.getElementById("transcriptContainer");
+    const logDiv = document.getElementById("log");
+    const startBtn = document.getElementById("startBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const status = document.getElementById("status");
+
+    function log(msg) {
+      const p = document.createElement("p");
+      p.textContent = msg;
+      logDiv.appendChild(p);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    function addTranscriptLine(text, sentiment = "neutral") {
+      const line = document.createElement("div");
+      line.className = `line ${sentiment.toLowerCase()}`;
+      line.innerHTML = `<strong>${sentiment}:</strong> ${text}`;
+      transcriptDiv.appendChild(line);
+      transcriptDiv.scrollTop = transcriptDiv.scrollHeight;
+    }
+
+    startBtn.onclick = async () => {
+      ws = new WebSocket("ws://127.0.0.1:8000/api/ws/transcribe");
+
+      ws.onopen = async () => {
+        status.textContent = "🟢 Connected. Listening...";
+        log("✅ Connected to backend WebSocket");
+        await startRecording();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      };
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.transcript) {
+          const sentiment = data.sentiment || "Neutral";
+          addTranscriptLine(data.transcript, sentiment);
+        }
+      };
+
+      ws.onclose = () => {
+        status.textContent = "🔴 Disconnected";
+        log("❌ Connection closed");
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        isRecording = false;
+      };
+
+      ws.onerror = (err) => log("⚠️ WebSocket error: " + err.message);
+    };
+
+    stopBtn.onclick = () => {
+      if (mediaRecorder && mediaRecorder.state !== "inactive") {
+        mediaRecorder.stop();
+        setTimeout(() => ws.close(), 1200);
+      }
+      if (ws && ws.readyState === WebSocket.OPEN) ws.close();
+    };
+
+    async function startRecording() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "audio/webm;codecs=pcm",
+          audioBitsPerSecond: 128000,
+        });
+        isRecording = true;
+
+        mediaRecorder.onstart = () => log("🎙️ MediaRecorder started successfully");
+        mediaRecorder.onerror = (e) => log("❌ Recorder error: " + e.error?.name);
+        mediaRecorder.ondataavailable = async (event) => {
+          if (event.data.size > 0 && ws && ws.readyState === WebSocket.OPEN) {
+            const buffer = await event.data.arrayBuffer();
+            ws.send(buffer);
+            log(`📤 Sent chunk (${(buffer.byteLength / 1024).toFixed(1)} KB)`);
+          }
+        };
+
+        // ✅ force chunks every second for real-time flow
+        mediaRecorder.start(8000);
+        log("🎬 Recording started...");
+        status.textContent = "🎤 Streaming audio...";
+      } catch (err) {
+        log("❌ Mic access or recording failed: " + err.message);
+        status.textContent = "⚠️ Recording failed";
+      }
+    }
+  </script>
+
+
+</body>
+
+</html>
